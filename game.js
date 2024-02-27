@@ -6,7 +6,7 @@
 
 // constants
 const highScoreKey = 'LittleJS_BreakoutHighScore';
-const maxLives = 1000;
+const maxLives = 15;
 
 // globals
 let ball, paddle, score, lives, comboCount, isPlaying, worldSize, usingKeyboard;
@@ -124,7 +124,7 @@ function gameRenderPost() // called after LittleJS objects are rendered
     // show hud text
     if (!ball || !isPlaying)
         drawText(lives || !isPlaying? 'Click to Play' : 'Game Over', cameraPos.add(vec2(0, -4)), 2);
-    if (!isPlaying)
+    if (!ball || !isPlaying)
         drawText('High Score\n' + localStorage[highScoreKey], cameraPos.add(vec2(0, -6)), 1);
 }
 
