@@ -6,7 +6,10 @@
 
 // constants
 const highScoreKey = 'LittleJS_BreakoutHighScore';
-const maxLives = 15;
+
+// get user's input value
+let yourchoice = window.prompt("How many lives do you want to use?");
+let maxLives = Number(yourchoice) || 3;
 
 // globals
 let ball, paddle, score, lives, comboCount, isPlaying, worldSize, usingKeyboard;
@@ -69,11 +72,13 @@ function gameUpdate() // called every frame by LittleJS at 60 fps
     {
         if (!isPlaying)
             startGame();
-        else if (!lives)
+        else if (!lives || score > 100)
         {
             // game over
             isPlaying = 0;
             engineObjectsDestroy();
+            let yourchoice = window.prompt("How many lives do you want to use?");
+            maxLives = Number(yourchoice) || 3;
         }
 
         if (isPlaying)
@@ -104,7 +109,8 @@ function gameRenderPost() // called after LittleJS objects are rendered
     if (isPlaying)
     {
         // draw score
-        drawText(score, vec2(2, worldSize.y-4))
+        if (maxLives == 3)
+          drawText(score, vec2(2, worldSize.y-4))
 
         // draw lives
         for(let i = maxLives; i--;)
@@ -124,7 +130,7 @@ function gameRenderPost() // called after LittleJS objects are rendered
     // show hud text
     if (!ball || !isPlaying)
         drawText(lives || !isPlaying? 'Click to Play' : 'Game Over', cameraPos.add(vec2(0, -4)), 2);
-    if (!ball || !isPlaying)
+    if (!isPlaying)
         drawText('High Score\n' + localStorage[highScoreKey], cameraPos.add(vec2(0, -6)), 1);
 }
 
